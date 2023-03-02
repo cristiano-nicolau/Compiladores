@@ -3,19 +3,19 @@ import java.util.Stack;
 
 public class ex103 {
     public static void main(String[] args) {
-        Stack <Double>operandstack = new Stack <Double>();
+        Stack <Double>stack = new Stack <Double>();
 		Scanner sc = new Scanner(System.in);
 		double result=0;
 		double n1,n2=0;
 		String operator=null;
 		while(sc.hasNextDouble()){
-			operandstack.add(sc.nextDouble());
-			System.out.println(operandstack.toString());
+			stack.add(sc.nextDouble());
+			System.out.println(stack.toString());
 		}
         
-		while(operandstack.size()>1 && sc.hasNext() ){
-			n1=operandstack.pop();
-			n2=operandstack.pop();
+		while(stack.size()>1 && sc.hasNext() ){
+			n1=stack.pop();
+			n2=stack.pop();
 		    operator=sc.next();
 		    switch(operator) {
 			    case "+":
@@ -38,8 +38,8 @@ public class ex103 {
 				    System.err.println("Operator invalid!");
 				    System.exit(0);
 		}
-		operandstack.add(result);
-		System.out.println(operandstack.toString());
+		stack.add(result);
+		System.out.println(stack.toString());
     }    
 }
 }
