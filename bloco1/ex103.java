@@ -40,6 +40,7 @@ public class ex103 {
 		}
 		stack.add(result);
 		System.out.println(stack.toString());
-    }    
-}
+    	}    
+		sc.close();
+	}
 }
