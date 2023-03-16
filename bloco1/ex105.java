@@ -1,62 +1,68 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ex105 {
-    public static void main(String[] args) throws IOException {
-        Path path=Paths.get("numbers.txt");
-        long coun = Files.lines(path).count();
-        int count=Long.valueOf(coun).intValue();
-        List<String> lines = Files.readAllLines(path); 
-        String[] numbers=new String[count];
-        String[] str=new String[count];
-        int i=0;
-        int lastnumber=0;
-        int result=0;
 
-
-        for (String line: lines){
-            String[] lineWords = line.split(" - ");
-            numbers[i]=lineWords[0];
-            str[i]=lineWords[1];
-            i++;        
-        }
-
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter a expression number: ");
-        String input = sc.nextLine();
-        sc.close();
-        String[] inputArray = input.split("[- ]+"); 
+        Map<String, Integer> traducaoMap = new HashMap<>();
+        List<Integer> multiplicaList = new ArrayList<>();
 
-        if (input.equals("")){
-            System.err.println("No input");
-        }else{
-            for (i=0;i<inputArray.length;i++){
-                for (int j=0;j<11;j++){
-                    if (inputArray[i].equals(str[j])){
-                        lastnumber=Integer.parseInt(numbers[j]);
-                        break;
-                    }
-                }
-                if (inputArray[i].equals(str[30])){
-                    result+=lastnumber*1000000;
-                }
-                if (inputArray[i].equals(str[28])){
-                    lastnumber=lastnumber*100;
-                }
-                if (inputArray[i].equals(str[29])){
-                    lastnumber=lastnumber*1000;
-                }
-                for (int u=20;u<28;u++){
-                    if (inputArray[i].equals(str[u])){
-                        result+=lastnumber*Integer.parseInt(numbers[u]);
-                    }
-                }
+        try (Scanner input = new Scanner(new File("numbers.txt"))) {
+            while (input.hasNextLine()) {
+                String[] tab = input.nextLine().split(" - ");
+                traducaoMap.put(tab[1], Integer.parseInt(tab[0]));
             }
+            input.close();
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
         }
-        System.out.println(result);
+
+        // ler o input do utilizador
+        String[] frase = sc.nextLine().split("[ -]");
+
+        int num = 1;
+        int inicio = 1;
+        for (int i = 0; i < frase.length; i++) {
+            if (traducaoMap.containsKey(frase[i])) {
+                if (traducaoMap.get(frase[i]) == 1000000 || traducaoMap.get(frase[i]) == 1000|| traducaoMap.get(frase[i]) == 100) {
+                    num = num * traducaoMap.get(frase[i]);
+                    inicio = 0;
+                } else {
+                    if (inicio != 1) {
+                        multiplicaList.add(num);
+                    }
+                    num = traducaoMap.get(frase[i]);
+                    inicio = 0;
+                }
+            } else if (!frase[i].equals("and")) {
+                System.err.printf("Palavra inserida [ %s ] nao tem correspondência\n", frase[i]);
+                System.exit(1);
+            }
+
+        }
+        multiplicaList.add(num);
+
+        int soma = 0;
+        for (Integer integer : multiplicaList) {
+            soma += integer;
+        }
+
+        imprimirResultados(frase, soma);
+        sc.close();
+    }
+    
+    public static void imprimirResultados(String[] input2, int soma) {
+        for (String string : input2) {
+            System.out.printf("%s ", string);
+        }
+        System.out.print("-> ");
+        System.out.println(soma);
     }
 }
