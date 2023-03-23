@@ -1,0 +1,4 @@
+antlr4-visitor [nome da gramatica] [Execute/Interpreter] [Double/Long]
+antlr4-main -v  [Execute/Interpreter]  -i
+antlr4-build
+antlr4-run
