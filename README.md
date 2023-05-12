@@ -1,2 +1,4 @@
 # Compiladores
-Aulas praticas de compiladores 22/23
+second year - 2nd semester class - Universiadade de Aveiro - Compiladores
+
+Pratical Classes
